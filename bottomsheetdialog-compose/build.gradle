@@ -7,6 +7,14 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+ext {
+    PUBLISH_GROUP_ID = Configuration.artifactGroup
+    PUBLISH_ARTIFACT_ID = 'bottomsheetdialog-compose'
+    PUBLISH_VERSION = rootVersionName
+}
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
+
 android {
     compileSdk Configuration.compileSdk
 
