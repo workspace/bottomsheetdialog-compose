@@ -11,7 +11,7 @@
 <p align="center"> Also, it supports to set navigation bar color when BottomSheetDialog has shown.</p>
 
 # Gradle
-```groovy
+```gradle
 // module's build.gradle
 dependencies {
     implementation "com.holix.android:bottomsheetdialog-compose:1.0.1"
