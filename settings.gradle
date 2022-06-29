@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "bottomsheetdialog-compose"
-include ':app'
 include ':bottomsheetdialog-compose'
+include ':app'
