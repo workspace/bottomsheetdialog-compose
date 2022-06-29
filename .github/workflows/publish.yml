@@ -18,6 +18,10 @@ jobs:
           distribution: adopt
           java-version: 11
 
+        # Make gradlew executable https://github.com/actions/starter-workflows/issues/171
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
         # Builds the release artifacts of the library
       - name: Release build
         run: ./gradlew :bottomsheetdialog-compose:assembleRelease
