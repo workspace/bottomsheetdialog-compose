@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TransparentBottomSheetTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="bottomSheetDialogTheme">@style/TransparentBottomSheetDialog</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheet</item>
+        <item name="android:windowClipToOutline">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="TransparentBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+</resources>
