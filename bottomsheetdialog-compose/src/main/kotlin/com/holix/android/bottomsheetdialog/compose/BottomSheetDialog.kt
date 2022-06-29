@@ -51,11 +51,12 @@ class BottomSheetDialogProperties constructor(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is DialogProperties) return false
+        if (other !is BottomSheetDialogProperties) return false
 
         if (dismissOnBackPress != other.dismissOnBackPress) return false
         if (dismissOnClickOutside != other.dismissOnClickOutside) return false
         if (securePolicy != other.securePolicy) return false
+        if (navigationBarColor != other.navigationBarColor) return false
 
         return true
     }
@@ -64,6 +65,7 @@ class BottomSheetDialogProperties constructor(
         var result = dismissOnBackPress.hashCode()
         result = 31 * result + dismissOnClickOutside.hashCode()
         result = 31 * result + securePolicy.hashCode()
+        result = 31 * result + navigationBarColor.hashCode()
         return result
     }
 }
