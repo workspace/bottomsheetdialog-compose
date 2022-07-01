@@ -11,14 +11,15 @@
   <img src="https://user-images.githubusercontent.com/7759511/176542504-8267c132-75b8-433f-b0bd-850fa8242377.png">
 </p>
 
-# Gradle
+# Get Started
+## Gradle
 ```gradle
 // module's build.gradle
 dependencies {
     implementation "com.holix.android:bottomsheetdialog-compose:1.0.1"
 }
 ```
-# Usage
+## Usage
 ```kotlin
 @Composable
 fun YourComposable() {
@@ -45,6 +46,8 @@ fun YourComposable() {
 }
 
 ```
+## Additional Information
+- This library depends on [material-components-android(BottomSheetDialog)](https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/bottomsheet/BottomSheetDialog.java).
 
 # License
 ```
