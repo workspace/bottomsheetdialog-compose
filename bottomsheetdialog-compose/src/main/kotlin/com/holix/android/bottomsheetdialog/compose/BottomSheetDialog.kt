@@ -221,9 +221,6 @@ private class BottomSheetDialogWrapper(
                 }
 
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == STATE_HIDDEN) {
-                        onDismissRequest()
-                    }
                 }
             }
         )
