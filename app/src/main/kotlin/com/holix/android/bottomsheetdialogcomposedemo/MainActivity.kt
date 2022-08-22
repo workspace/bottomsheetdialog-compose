@@ -1,6 +1,7 @@
 package com.holix.android.bottomsheetdialogcomposedemo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -28,15 +29,28 @@ class MainActivity : AppCompatActivity() {
                     lightColors()
                 }
             ) {
+                var dismissOnBackPress by rememberSaveable {
+                    mutableStateOf(true)
+                }
+                var dismissOnClickOutside by rememberSaveable {
+                    mutableStateOf(true)
+                }
+                var dismissWithAnimation by rememberSaveable {
+                    mutableStateOf(false)
+                }
                 var showBottomSheetDialog by rememberSaveable {
                     mutableStateOf(false)
                 }
                 if (showBottomSheetDialog) {
                     BottomSheetDialog(
                         onDismissRequest = {
+                            Log.d("[BottomSheetDialog]", "onDismissRequest")
                             showBottomSheetDialog = false
                         },
                         properties = BottomSheetDialogProperties(
+                            dismissOnBackPress = dismissOnBackPress,
+                            dismissOnClickOutside = dismissOnClickOutside,
+                            dismissWithAnimation = dismissWithAnimation,
                             navigationBarColor = MaterialTheme.colors.surface
                         )
                     ) {
@@ -57,12 +71,55 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Button(onClick = { showBottomSheetDialog = true }) {
-                        Text(text = "Show")
+                Surface {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(text = "dismissOnBackPress")
+                                Switch(
+                                    checked = dismissOnBackPress,
+                                    onCheckedChange = {
+                                        dismissOnBackPress = it
+                                    }
+                                )
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(text = "dismissOnClickOutside")
+                                Switch(
+                                    checked = dismissOnClickOutside,
+                                    onCheckedChange = {
+                                        dismissOnClickOutside = it
+                                    }
+                                )
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(text = "dismissWithAnimation")
+                                Switch(
+                                    checked = dismissWithAnimation,
+                                    onCheckedChange = {
+                                        dismissWithAnimation = it
+                                    }
+                                )
+                            }
+                            Button(onClick = { showBottomSheetDialog = true }) {
+                                Text(text = "Show")
+                            }
+                        }
                     }
                 }
             }

@@ -24,27 +24,29 @@ import androidx.lifecycle.ViewTreeViewModelStoreOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 
 
 /**
- * Properties used to customize the behavior of a [Dialog].
+ * Properties used to customize the behavior of a [BottomSheetDialog].
  *
  * @property dismissOnBackPress whether the dialog can be dismissed by pressing the back button.
  * If true, pressing the back button will call onDismissRequest.
  * @property dismissOnClickOutside whether the dialog can be dismissed by clicking outside the
  * dialog's bounds. If true, clicking outside the dialog will call onDismissRequest.
+ * @property dismissWithAnimation [BottomSheetDialog.setDismissWithAnimation]
  * @property securePolicy Policy for setting [WindowManager.LayoutParams.FLAG_SECURE] on the
  * dialog's window.
- * @property usePlatformDefaultWidth Whether the width of the dialog's content should be limited to
- * the platform default, which is smaller than the screen width.
+ * @property navigationBarColor  Color to apply to the navigationBar.
  */
 @Immutable
 class BottomSheetDialogProperties constructor(
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
+    val dismissWithAnimation: Boolean = false,
     val securePolicy: SecureFlagPolicy = SecureFlagPolicy.Inherit,
     val navigationBarColor: Color = Color.Unspecified
 ) {
@@ -55,6 +57,7 @@ class BottomSheetDialogProperties constructor(
 
         if (dismissOnBackPress != other.dismissOnBackPress) return false
         if (dismissOnClickOutside != other.dismissOnClickOutside) return false
+        if (dismissWithAnimation != other.dismissWithAnimation) return false
         if (securePolicy != other.securePolicy) return false
         if (navigationBarColor != other.navigationBarColor) return false
 
@@ -64,6 +67,7 @@ class BottomSheetDialogProperties constructor(
     override fun hashCode(): Int {
         var result = dismissOnBackPress.hashCode()
         result = 31 * result + dismissOnClickOutside.hashCode()
+        result = 31 * result + dismissWithAnimation.hashCode()
         result = 31 * result + securePolicy.hashCode()
         result = 31 * result + navigationBarColor.hashCode()
         return result
@@ -71,18 +75,18 @@ class BottomSheetDialogProperties constructor(
 }
 
 /**
- * Opens a dialog with the given content.
+ * Opens a bottomsheet dialog with the given content.
  *
  * The dialog is visible as long as it is part of the composition hierarchy.
- * In order to let the user dismiss the Dialog, the implementation of [onDismissRequest] should
+ * In order to let the user dismiss the BottomSheetDialog, the implementation of [onDismissRequest] should
  * contain a way to remove to remove the dialog from the composition hierarchy.
  *
  * Example usage:
  *
- * @sample androidx.compose.ui.samples.DialogSample
+ * @sample com.holix.android.bottomsheetdialogcomposedemo.MainActivity
  *
  * @param onDismissRequest Executes when the user tries to dismiss the dialog.
- * @param properties [DialogProperties] for further customization of this dialog's behavior.
+ * @param properties [BottomSheetDialogProperties] for further customization of this dialog's behavior.
  * @param content The content to be displayed inside the dialog.
  */
 @Composable
@@ -137,7 +141,7 @@ fun BottomSheetDialog(
 }
 
 /**
- * Provides the underlying window of a dialog.
+ * Provides the underlying window of a bottomsheet dialog.
  *
  * Implemented by dialog's root layout.
  */
@@ -185,9 +189,21 @@ private class BottomSheetDialogWrapper(
     ViewRootForInspector {
     private val bottomSheetDialogLayout: BottomSheetDialogLayout
 
+    private val bottomSheetCallbackForAnimation: BottomSheetCallback = object : BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            if (newState == STATE_HIDDEN) {
+                onDismissRequest()
+            }
+        }
+    }
+
     private val maxSupportedElevation = 30.dp
 
     override val subCompositionView: AbstractComposeView get() = bottomSheetDialogLayout
+
 
     init {
         val window = window ?: error("Dialog has no window")
@@ -215,18 +231,6 @@ private class BottomSheetDialogWrapper(
                 }
             }
         }
-        this.behavior.addBottomSheetCallback(
-            object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                }
-
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == STATE_HIDDEN) {
-                        onDismissRequest()
-                    }
-                }
-            }
-        )
 
         /**
          * Disables clipping for [this] and all its descendant [ViewGroup]s until we reach a
@@ -285,6 +289,15 @@ private class BottomSheetDialogWrapper(
         }
     }
 
+    override fun setDismissWithAnimation(dismissWithAnimation: Boolean) {
+        super.setDismissWithAnimation(dismissWithAnimation)
+        if (dismissWithAnimation) {
+            behavior.addBottomSheetCallback(bottomSheetCallbackForAnimation)
+        } else {
+            behavior.removeBottomSheetCallback(bottomSheetCallbackForAnimation)
+        }
+    }
+
     fun updateParameters(
         onDismissRequest: () -> Unit,
         properties: BottomSheetDialogProperties,
@@ -296,6 +309,7 @@ private class BottomSheetDialogWrapper(
         setLayoutDirection(layoutDirection)
         setCanceledOnTouchOutside(properties.dismissOnClickOutside)
         setNavigationBarColor(properties.navigationBarColor)
+        dismissWithAnimation = properties.dismissWithAnimation
     }
 
     fun disposeComposition() {
@@ -303,12 +317,18 @@ private class BottomSheetDialogWrapper(
     }
 
     override fun cancel() {
-        onDismissRequest()
+        if (properties.dismissWithAnimation) {
+            // call setState(STATE_HIDDEN) -> onDismissRequest will be called in BottomSheetCallback
+            super.cancel()
+        } else {
+            // dismiss with window animation
+            onDismissRequest()
+        }
     }
 
     override fun onBackPressed() {
         if (properties.dismissOnBackPress) {
-            onDismissRequest()
+            cancel()
         }
     }
 }
