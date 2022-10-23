@@ -1,7 +1,7 @@
 package com.holix.android.bottomsheetdialog.compose
 
 object Configuration {
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val targetSdk = 32
     const val minSdk = 21
     const val majorVersion = 1
