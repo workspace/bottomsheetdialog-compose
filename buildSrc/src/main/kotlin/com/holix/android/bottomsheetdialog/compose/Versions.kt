@@ -11,6 +11,8 @@ object Versions {
     internal const val COMPOSE = "1.2.1"
     const val COMPOSE_COMPILER = "1.3.1"
     internal const val COMPOSE_ACTIVITY = "1.5.1"
+
+    internal const val COLOR_PICKER = "1.0.0"
 }
 
 object Dependencies {
@@ -29,4 +31,6 @@ object Dependencies {
     const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"
     const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
     const val composeActivity = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
+
+    const val colorPicker = "com.github.skydoves:colorpicker-compose:${Versions.COLOR_PICKER}"
 }

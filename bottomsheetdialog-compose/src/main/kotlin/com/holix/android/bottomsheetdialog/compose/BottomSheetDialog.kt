@@ -1,13 +1,16 @@
 package com.holix.android.bottomsheetdialog.compose
 
-import android.app.Dialog
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Outline
+import android.os.Build
 import android.view.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.*
@@ -16,14 +19,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.ViewTreeViewModelStoreOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -48,8 +49,23 @@ class BottomSheetDialogProperties constructor(
     val dismissOnClickOutside: Boolean = true,
     val dismissWithAnimation: Boolean = false,
     val securePolicy: SecureFlagPolicy = SecureFlagPolicy.Inherit,
-    val navigationBarColor: Color = Color.Unspecified
+    val navigationBarProperties: NavigationBarProperties = NavigationBarProperties()
 ) {
+
+    @Deprecated("Use NavigationBarProperties(color = navigationBarColor) instead")
+    constructor(
+        dismissOnBackPress: Boolean = true,
+        dismissOnClickOutside: Boolean = true,
+        dismissWithAnimation: Boolean = false,
+        securePolicy: SecureFlagPolicy = SecureFlagPolicy.Inherit,
+        navigationBarColor: Color
+    ) : this(
+        dismissOnBackPress,
+        dismissOnClickOutside,
+        dismissWithAnimation,
+        securePolicy,
+        NavigationBarProperties(color = navigationBarColor)
+    )
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -59,7 +75,7 @@ class BottomSheetDialogProperties constructor(
         if (dismissOnClickOutside != other.dismissOnClickOutside) return false
         if (dismissWithAnimation != other.dismissWithAnimation) return false
         if (securePolicy != other.securePolicy) return false
-        if (navigationBarColor != other.navigationBarColor) return false
+        if (navigationBarProperties != other.navigationBarProperties) return false
 
         return true
     }
@@ -69,9 +85,58 @@ class BottomSheetDialogProperties constructor(
         result = 31 * result + dismissOnClickOutside.hashCode()
         result = 31 * result + dismissWithAnimation.hashCode()
         result = 31 * result + securePolicy.hashCode()
-        result = 31 * result + navigationBarColor.hashCode()
+        result = 31 * result + navigationBarProperties.hashCode()
         return result
     }
+}
+
+/**
+ * Properties used to customize navigationBar.
+
+ * @param color The **desired** [Color] to set. This may require modification if running on an
+ * API level that only supports white navigation bar icons. Additionally this will be ignored
+ * and [Color.Transparent] will be used on API 29+ where gesture navigation is preferred or the
+ * system UI automatically applies background protection in other navigation modes.
+ * @param darkIcons Whether dark navigation bar icons would be preferable.
+ * @param navigationBarContrastEnforced Whether the system should ensure that the navigation
+ * bar has enough contrast when a fully transparent background is requested. Only supported on
+ * API 29+.
+ * @param transformColorForLightContent A lambda which will be invoked to transform [color] if
+ * dark icons were requested but are not available. Defaults to applying a black scrim.
+ *
+ * Inspired by [Accompanist SystemUiController](https://github.com/google/accompanist/blob/main/systemuicontroller/src/main/java/com/google/accompanist/systemuicontroller/SystemUiController.kt)
+ */
+
+@Immutable
+class NavigationBarProperties(
+    val color: Color = Color.Unspecified,
+    val darkIcons: Boolean = color.luminance() > 0.5f,
+    val navigationBarContrastEnforced: Boolean = true,
+    val transformColorForLightContent: (Color) -> Color = BlackScrimmed
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NavigationBarProperties) return false
+
+        if (color != other.color) return false
+        if (darkIcons != other.darkIcons) return false
+        if (navigationBarContrastEnforced != other.navigationBarContrastEnforced) return false
+        if (transformColorForLightContent != other.transformColorForLightContent) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = color.hashCode()
+        result = 31 * result + darkIcons.hashCode()
+        result = 31 * result + navigationBarContrastEnforced.hashCode()
+        return result
+    }
+}
+
+private val BlackScrim = Color(0f, 0f, 0f, 0.3f) // 30% opaque black
+private val BlackScrimmed: (Color) -> Color = { original ->
+    BlackScrim.compositeOver(original)
 }
 
 /**
@@ -204,6 +269,23 @@ private class BottomSheetDialogWrapper(
 
     override val subCompositionView: AbstractComposeView get() = bottomSheetDialogLayout
 
+    // to control insets
+    private val windowInsetsController = window?.let {
+        WindowCompat.getInsetsController(it, it.decorView)
+    }
+    private var navigationBarDarkContentEnabled: Boolean
+        get() = windowInsetsController?.isAppearanceLightNavigationBars == true
+        set(value) {
+            windowInsetsController?.isAppearanceLightNavigationBars = value
+        }
+
+    private var isNavigationBarContrastEnforced: Boolean
+        get() = Build.VERSION.SDK_INT >= 29 && window?.isNavigationBarContrastEnforced == true
+        set(value) {
+            if (Build.VERSION.SDK_INT >= 29) {
+                window?.isNavigationBarContrastEnforced = value
+            }
+        }
 
     init {
         val window = window ?: error("Dialog has no window")
@@ -283,9 +365,20 @@ private class BottomSheetDialogWrapper(
         )
     }
 
-    private fun setNavigationBarColor(color: Color) {
-        if (color != Color.Unspecified) {
-            window!!.navigationBarColor = color.toArgb()
+    private fun setNavigationBarProperties(properties: NavigationBarProperties) {
+        with(properties) {
+            navigationBarDarkContentEnabled = darkIcons
+            isNavigationBarContrastEnforced = navigationBarContrastEnforced
+
+            window?.navigationBarColor = when {
+                darkIcons && windowInsetsController?.isAppearanceLightNavigationBars != true -> {
+                    // If we're set to use dark icons, but our windowInsetsController call didn't
+                    // succeed (usually due to API level), we instead transform the color to maintain
+                    // contrast
+                    transformColorForLightContent(color)
+                }
+                else -> color
+            }.toArgb()
         }
     }
 
@@ -308,7 +401,7 @@ private class BottomSheetDialogWrapper(
         setSecurePolicy(properties.securePolicy)
         setLayoutDirection(layoutDirection)
         setCanceledOnTouchOutside(properties.dismissOnClickOutside)
-        setNavigationBarColor(properties.navigationBarColor)
+        setNavigationBarProperties(properties.navigationBarProperties)
         dismissWithAnimation = properties.dismissWithAnimation
     }
 
@@ -326,6 +419,8 @@ private class BottomSheetDialogWrapper(
         }
     }
 
+    @Deprecated("Deprecated")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         if (properties.dismissOnBackPress) {
             cancel()
