@@ -1,5 +1,6 @@
 package com.holix.android.bottomsheetdialog.compose
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Outline
 import android.os.Build
@@ -51,6 +52,7 @@ class BottomSheetDialogProperties constructor(
     val navigationBarProperties: NavigationBarProperties = NavigationBarProperties()
 ) {
 
+    @Deprecated("Use NavigationBarProperties(color = navigationBarColor) instead")
     constructor(
         dismissOnBackPress: Boolean = true,
         dismissOnClickOutside: Boolean = true,
@@ -417,6 +419,8 @@ private class BottomSheetDialogWrapper(
         }
     }
 
+    @Deprecated("Deprecated")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         if (properties.dismissOnBackPress) {
             cancel()
