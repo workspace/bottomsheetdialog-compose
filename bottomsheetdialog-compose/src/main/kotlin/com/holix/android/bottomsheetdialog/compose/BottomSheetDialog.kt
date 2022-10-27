@@ -102,7 +102,7 @@ class BottomSheetDialogProperties constructor(
  */
 @Immutable
 class BottomSheetBehaviorProperties(
-    val state: BottomSheetDialogState = BottomSheetDialogState.Collapsed,
+    val state: State = State.Collapsed,
     val maxWidth: Size = Size.NotSet,
     val maxHeight: Size = Size.NotSet,
     val isDraggable: Boolean = true,
@@ -151,15 +151,13 @@ class BottomSheetBehaviorProperties(
     }
 
     @Immutable
-    enum class BottomSheetDialogState {
+    enum class State {
         @Stable
         Expanded,
         @Stable
         HalfExpanded,
         @Stable
-        Collapsed,
-        @Stable
-        Hidden
+        Collapsed
     }
 
     @JvmInline
@@ -486,10 +484,9 @@ private class BottomSheetDialogWrapper(
 
     private fun setBehaviorProperties(behaviorProperties: BottomSheetBehaviorProperties) {
         this.behavior.state = when (behaviorProperties.state) {
-            BottomSheetBehaviorProperties.BottomSheetDialogState.Expanded -> STATE_EXPANDED
-            BottomSheetBehaviorProperties.BottomSheetDialogState.Collapsed -> STATE_COLLAPSED
-            BottomSheetBehaviorProperties.BottomSheetDialogState.HalfExpanded -> STATE_HALF_EXPANDED
-            BottomSheetBehaviorProperties.BottomSheetDialogState.Hidden -> STATE_HIDDEN
+            BottomSheetBehaviorProperties.State.Expanded -> STATE_EXPANDED
+            BottomSheetBehaviorProperties.State.Collapsed -> STATE_COLLAPSED
+            BottomSheetBehaviorProperties.State.HalfExpanded -> STATE_HALF_EXPANDED
         }
         this.behavior.maxWidth = behaviorProperties.maxWidth.value
         this.behavior.maxHeight = behaviorProperties.maxHeight.value
