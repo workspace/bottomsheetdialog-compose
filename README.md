@@ -16,10 +16,11 @@
 ```gradle
 // module's build.gradle
 dependencies {
-    implementation "com.holix.android:bottomsheetdialog-compose:1.0.1"
+    implementation "com.holix.android:bottomsheetdialog-compose:1.0.3"
 }
 ```
 ## Usage
+You can use BottomSheetDialog composable like Dialog composable! It is super simple 😎
 ```kotlin
 @Composable
 fun YourComposable() {
@@ -32,10 +33,7 @@ fun YourComposable() {
                 show = false
             },
             properties = BottomSheetDialogProperties(
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true,
-                dismissWithAnimation = false,
-                navigationBarColor = Color.Unspecified
+                ...
             )
         ) {
             // content
@@ -47,6 +45,42 @@ fun YourComposable() {
 }
 
 ```
+## BottomSheetDialogProperties
+|name|default value|type|
+|--|--|--|
+|dismissOnBackPress|true|Boolean|
+|dismissOnClickOutside|true|Boolean|
+|dismissWithAnimation|false|Boolean|
+|navigationBarProperties|NavigationBarProperties()|NavigationBarProperties|
+|behaviorProperties|BottomSheetBehaviorProperties()|BottomSheetBehaviorProperties|
+
+### NavigationBarProperties
+inspired by [accompanist's SystemUiController](https://github.com/google/accompanist/blob/353be641be03ffed5dc2a89efc6fdcb0e6fe65b1/systemuicontroller/src/main/java/com/google/accompanist/systemuicontroller/SystemUiController.kt#L97-L119)
+
+|name|default value|type|
+|--|--|--|
+|color|Color.Unspecified|Color|
+|darkIcons|color.luminance() > 0.5f|Boolean|
+|navigationBarContrastEnforced|true|Boolean|
+|transformColorForLightContent|{ original -> Color(0f, 0f, 0f, 0.3f).compositeOver(original) }|(Color) -> Color|
+
+### BottomSheetBehaviorProperties
+[BottomSheetBehavior official docs](https://developer.android.com/reference/com/google/android/material/bottomsheet/BottomSheetBehavior)
+
+|name|default value|type|
+|--|--|--|
+|state|State.Collapsed|[State](https://github.com/holixfactory/bottomsheetdialog-compose/blob/5dbbc8cb1ef4b9ec27d4181e87d3136dd2915216/bottomsheetdialog-compose/src/main/kotlin/com/holix/android/bottomsheetdialog/compose/BottomSheetDialog.kt#L156)|
+|maxWidth|Size.NotSet|[Size](https://github.com/holixfactory/bottomsheetdialog-compose/blob/5dbbc8cb1ef4b9ec27d4181e87d3136dd2915216/bottomsheetdialog-compose/src/main/kotlin/com/holix/android/bottomsheetdialog/compose/BottomSheetDialog.kt#L167)|
+|maxHeight|Size.NotSet|[Size](https://github.com/holixfactory/bottomsheetdialog-compose/blob/5dbbc8cb1ef4b9ec27d4181e87d3136dd2915216/bottomsheetdialog-compose/src/main/kotlin/com/holix/android/bottomsheetdialog/compose/BottomSheetDialog.kt#L167)|
+|isDraggable|true|Boolean|
+|expandedOffset|0|Integer|
+|halfExpandedRatio|0.5F|Float|
+|isHideable|true|Boolean|
+|peekHeight|PeekHeight.Auto|[PeekHeight](https://github.com/holixfactory/bottomsheetdialog-compose/blob/5dbbc8cb1ef4b9ec27d4181e87d3136dd2915216/bottomsheetdialog-compose/src/main/kotlin/com/holix/android/bottomsheetdialog/compose/BottomSheetDialog.kt#L177)|
+|isFitToContents|true|Boolean|
+|skipCollapsed|false|Boolean|
+|isGestureInsetBottomIgnored|false|Boolean|
+
 ## Additional Information
 - This library depends on [material-components-android(BottomSheetDialog)](https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/bottomsheet/BottomSheetDialog.java).
 
