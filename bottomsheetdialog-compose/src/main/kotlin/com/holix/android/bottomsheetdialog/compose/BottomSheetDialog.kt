@@ -10,11 +10,13 @@ import androidx.annotation.IntRange
 import androidx.annotation.Px
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.*
 import androidx.compose.ui.semantics.dialog
@@ -245,6 +247,7 @@ private val BlackScrimmed: (Color) -> Color = { original ->
  * @param properties [BottomSheetDialogProperties] for further customization of this dialog's behavior.
  * @param content The content to be displayed inside the dialog.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BottomSheetDialog(
     onDismissRequest: () -> Unit,
@@ -267,10 +270,10 @@ fun BottomSheetDialog(
             dialogId
         ).apply {
             setContent(composition) {
-                // TODO(b/159900354): draw a scrim and add margins around the Compose Dialog, and
-                //  consume clicks so they can't pass through to the underlying UI
                 BottomSheetDialogLayout(
-                    Modifier.semantics { dialog() },
+                    Modifier
+                        .nestedScroll(rememberNestedScrollInteropConnection())
+                        .semantics { dialog() },
                 ) {
                     currentContent()
                 }
