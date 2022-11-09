@@ -51,6 +51,7 @@ fun YourComposable() {
 |dismissOnBackPress|true|Boolean|
 |dismissOnClickOutside|true|Boolean|
 |dismissWithAnimation|false|Boolean|
+|enableEdgeToEdge|false|Boolean|
 |navigationBarProperties|NavigationBarProperties()|NavigationBarProperties|
 |behaviorProperties|BottomSheetBehaviorProperties()|BottomSheetBehaviorProperties|
 
