@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity() {
                 var dismissWithAnimation by remember {
                     mutableStateOf(false)
                 }
+                var enableEdgeToEdge by remember {
+                    mutableStateOf(false)
+                }
                 // NavigationBarProperties
                 val surfaceColor = MaterialTheme.colors.surface
                 var navigationBarColor by remember(surfaceColor) {
@@ -102,6 +105,7 @@ class MainActivity : AppCompatActivity() {
                             dismissOnBackPress = dismissOnBackPress,
                             dismissOnClickOutside = dismissOnClickOutside,
                             dismissWithAnimation = dismissWithAnimation,
+                            enableEdgeToEdge = enableEdgeToEdge,
                             navigationBarProperties = NavigationBarProperties(
                                 color = navigationBarColor,
                                 darkIcons = when (darkIcons) {
@@ -131,9 +135,10 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             Column(
                                 modifier = Modifier
+                                    .verticalScroll(rememberScrollState())
+                                    .navigationBarsPadding() // for enableEdgeToEdge = true
                                     .fillMaxWidth()
-                                    .padding(16.dp)
-                                    .verticalScroll(rememberScrollState()),
+                                    .padding(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 Text(text = "Title", style = MaterialTheme.typography.h5)
@@ -178,6 +183,13 @@ class MainActivity : AppCompatActivity() {
                                     dismissWithAnimation = it
                                 },
                                 label = "dismissWithAnimation"
+                            )
+                            BooleanPreference(
+                                value = enableEdgeToEdge,
+                                onValueChange = {
+                                    enableEdgeToEdge = it
+                                },
+                                label = "enableEdgeToEdge"
                             )
                             PreferenceCategory("NavigationBarProperties")
                             ColorPreference(
