@@ -32,5 +32,6 @@
 
     <style name="TransparentBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
         <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:elevation">0dp</item>
     </style>
 </resources>
