@@ -16,7 +16,7 @@
 ```gradle
 // module's build.gradle
 dependencies {
-    implementation "com.holix.android:bottomsheetdialog-compose:1.0.3"
+    implementation "com.holix.android:bottomsheetdialog-compose:1.1.0"
 }
 ```
 ## Usage
