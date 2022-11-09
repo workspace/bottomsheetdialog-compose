@@ -20,6 +20,7 @@ import com.github.skydoves.colorpicker.compose.*
 import com.holix.android.bottomsheetdialog.compose.BottomSheetBehaviorProperties
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialog
 import com.holix.android.bottomsheetdialog.compose.BottomSheetDialogProperties
+import com.holix.android.bottomsheetdialog.compose.NavigationBarProperties
 
 @Composable
 fun ColorPreference(
@@ -42,6 +43,9 @@ fun ColorPreference(
                 behaviorProperties = BottomSheetBehaviorProperties(
                     state = BottomSheetBehaviorProperties.State.Expanded,
                     skipCollapsed = true
+                ),
+                navigationBarProperties = NavigationBarProperties(
+                    color = targetColor
                 )
             )
         ) {

@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TransparentBottomSheetTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="bottomSheetDialogTheme">@style/TransparentBottomSheetDialog</item>
+    <style name="TransparentEdgeToEdgeEnabledBottomSheetTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="bottomSheetDialogTheme">@style/TransparentEdgeToEdgeEnabledBottomSheetDialog</item>
+    </style>
+    <style name="TransparentEdgeToEdgeDisabledBottomSheetTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="bottomSheetDialogTheme">@style/TransparentEdgeToEdgeDisabledBottomSheetDialog</item>
     </style>
 
-    <style name="TransparentBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+    <style name="TransparentEdgeToEdgeEnabledBottomSheetDialog" parent="BaseTransparentBottomSheetDialog">
+        <item name="enableEdgeToEdge">true</item>
+        <item name="paddingBottomSystemWindowInsets">false</item>
+        <item name="paddingLeftSystemWindowInsets">true</item>
+        <item name="paddingRightSystemWindowInsets">true</item>
+        <item name="paddingTopSystemWindowInsets">true</item>
+    </style>
+
+    <style name="TransparentEdgeToEdgeDisabledBottomSheetDialog" parent="BaseTransparentBottomSheetDialog">
+        <item name="enableEdgeToEdge">false</item>
+        <item name="paddingBottomSystemWindowInsets">true</item>
+        <item name="paddingLeftSystemWindowInsets">true</item>
+        <item name="paddingRightSystemWindowInsets">true</item>
+        <item name="paddingTopSystemWindowInsets">true</item>
+    </style>
+
+    <style name="BaseTransparentBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TransparentBottomSheet</item>
         <item name="android:windowClipToOutline">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>

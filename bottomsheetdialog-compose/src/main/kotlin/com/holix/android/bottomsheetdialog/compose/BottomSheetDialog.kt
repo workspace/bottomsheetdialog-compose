@@ -52,6 +52,7 @@ class BottomSheetDialogProperties constructor(
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
     val dismissWithAnimation: Boolean = false,
+    val enableEdgeToEdge: Boolean = false,
     val securePolicy: SecureFlagPolicy = SecureFlagPolicy.Inherit,
     val navigationBarProperties: NavigationBarProperties = NavigationBarProperties(),
     val behaviorProperties: BottomSheetBehaviorProperties = BottomSheetBehaviorProperties()
@@ -68,6 +69,7 @@ class BottomSheetDialogProperties constructor(
         dismissOnBackPress,
         dismissOnClickOutside,
         dismissWithAnimation,
+        false,
         securePolicy,
         NavigationBarProperties(color = navigationBarColor)
     )
@@ -79,6 +81,7 @@ class BottomSheetDialogProperties constructor(
         if (dismissOnBackPress != other.dismissOnBackPress) return false
         if (dismissOnClickOutside != other.dismissOnClickOutside) return false
         if (dismissWithAnimation != other.dismissWithAnimation) return false
+        if (enableEdgeToEdge != other.enableEdgeToEdge) return false
         if (securePolicy != other.securePolicy) return false
         if (navigationBarProperties != other.navigationBarProperties) return false
         if (behaviorProperties != other.behaviorProperties) return false
@@ -90,6 +93,7 @@ class BottomSheetDialogProperties constructor(
         var result = dismissOnBackPress.hashCode()
         result = 31 * result + dismissOnClickOutside.hashCode()
         result = 31 * result + dismissWithAnimation.hashCode()
+        result = 31 * result + enableEdgeToEdge.hashCode()
         result = 31 * result + securePolicy.hashCode()
         result = 31 * result + navigationBarProperties.hashCode()
         result = 31 * result + behaviorProperties.hashCode()
@@ -339,11 +343,14 @@ private class BottomSheetDialogWrapper(
     density: Density,
     dialogId: UUID
 ) : BottomSheetDialog(
-    /**
-     * [Window.setClipToOutline] is only available from 22+, but the style attribute exists on 21.
-     * So use a wrapped context that sets this attribute for compatibility back to 21.
-     */
-    ContextThemeWrapper(composeView.context, R.style.TransparentBottomSheetTheme)
+    ContextThemeWrapper(
+        composeView.context,
+        if (properties.enableEdgeToEdge) {
+            R.style.TransparentEdgeToEdgeEnabledBottomSheetTheme
+        } else {
+            R.style.TransparentEdgeToEdgeDisabledBottomSheetTheme
+        }
+    )
 ),
     ViewRootForInspector {
     private val bottomSheetDialogLayout: BottomSheetDialogLayout
