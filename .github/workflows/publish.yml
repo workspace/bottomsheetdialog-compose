@@ -1,9 +1,8 @@
 name: Publish
 
 on:
-  release:
-    # We'll run this workflow when a new GitHub release is created
-    types: [released]
+  push:
+    tags: v1.*
 
 jobs:
   publish:
