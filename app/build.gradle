@@ -45,7 +45,6 @@ android {
 
 dependencies {
     implementation project(":bottomsheetdialog-compose")
-    implementation platform(Dependencies.composeBom)
     implementation Dependencies.composeUI
     implementation Dependencies.composeFoundation
     implementation Dependencies.composeMaterial
