@@ -8,6 +8,7 @@ plugins {
 }
 
 android {
+    namespace "com.holix.android.bottomsheetdialogcomposedemo"
     compileSdk Configuration.compileSdk
 
     defaultConfig {
