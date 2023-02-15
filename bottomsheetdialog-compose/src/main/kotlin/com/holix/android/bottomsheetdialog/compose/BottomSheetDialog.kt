@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Outline
 import android.os.Build
 import android.view.*
+import androidx.activity.addCallback
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.annotation.Px
@@ -438,6 +439,12 @@ private class BottomSheetDialogWrapper(
 
         // Initial setup
         updateParameters(onDismissRequest, properties, layoutDirection)
+
+        onBackPressedDispatcher.addCallback(this) {
+            if (properties.dismissOnBackPress) {
+                cancel()
+            }
+        }
     }
 
     private fun setLayoutDirection(layoutDirection: LayoutDirection) {
@@ -536,14 +543,6 @@ private class BottomSheetDialogWrapper(
         } else {
             // dismiss with window animation
             onDismissRequest()
-        }
-    }
-
-    @Deprecated("Deprecated")
-    @SuppressLint("MissingSuperCall")
-    override fun onBackPressed() {
-        if (properties.dismissOnBackPress) {
-            cancel()
         }
     }
 }
