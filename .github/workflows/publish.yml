@@ -2,8 +2,11 @@ name: Publish
 
 on:
   push:
+    branches:
+      - 'main'
+      - 'compose-1.4'
     tags:
-      = v1.**
+      = v1.*
 
 jobs:
   publish:
