@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation platform(Dependencies.composeBom)
     implementation Dependencies.composeUI
     implementation Dependencies.androidxActivityKtx
     implementation Dependencies.androidxCoreKtx
