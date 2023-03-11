@@ -6,6 +6,7 @@ import android.graphics.Outline
 import android.os.Build
 import android.view.*
 import androidx.activity.addCallback
+import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.annotation.Px
@@ -433,6 +434,7 @@ private class BottomSheetDialogWrapper(
         setContentView(bottomSheetDialogLayout)
         ViewTreeLifecycleOwner.set(bottomSheetDialogLayout, ViewTreeLifecycleOwner.get(composeView))
         ViewTreeViewModelStoreOwner.set(bottomSheetDialogLayout, ViewTreeViewModelStoreOwner.get(composeView))
+        bottomSheetDialogLayout.setViewTreeOnBackPressedDispatcherOwner(this)
         bottomSheetDialogLayout.setViewTreeSavedStateRegistryOwner(
             composeView.findViewTreeSavedStateRegistryOwner()
         )
