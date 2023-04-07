@@ -1,5 +1,8 @@
 package com.holix.android.bottomsheetdialog.compose
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Outline
@@ -279,6 +282,7 @@ fun BottomSheetDialog(
                 BottomSheetDialogLayout(
                     Modifier
                         .nestedScroll(rememberNestedScrollInteropConnection())
+                        .scrollable(state = rememberScrollableState{ 0f }, orientation = Orientation.Vertical)
                         .semantics { dialog() },
                 ) {
                     currentContent()
