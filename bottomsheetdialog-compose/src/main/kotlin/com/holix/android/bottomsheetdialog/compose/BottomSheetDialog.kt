@@ -1,9 +1,5 @@
 package com.holix.android.bottomsheetdialog.compose
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Outline
 import android.os.Build
@@ -13,9 +9,11 @@ import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.annotation.Px
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
@@ -32,8 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindowProvider
 import androidx.compose.ui.window.SecureFlagPolicy
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.ViewTreeLifecycleOwner
-import androidx.lifecycle.ViewTreeViewModelStoreOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
@@ -257,7 +257,6 @@ private val BlackScrimmed: (Color) -> Color = { original ->
  * @param properties [BottomSheetDialogProperties] for further customization of this dialog's behavior.
  * @param content The content to be displayed inside the dialog.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BottomSheetDialog(
     onDismissRequest: () -> Unit,
@@ -428,8 +427,8 @@ private class BottomSheetDialogWrapper(
         // Turn of all clipping so shadows can be drawn outside the window
         (window.decorView as? ViewGroup)?.disableClipping()
         setContentView(bottomSheetDialogLayout)
-        ViewTreeLifecycleOwner.set(bottomSheetDialogLayout, ViewTreeLifecycleOwner.get(composeView))
-        ViewTreeViewModelStoreOwner.set(bottomSheetDialogLayout, ViewTreeViewModelStoreOwner.get(composeView))
+        bottomSheetDialogLayout.setViewTreeLifecycleOwner(composeView.findViewTreeLifecycleOwner())
+        bottomSheetDialogLayout.setViewTreeViewModelStoreOwner(composeView.findViewTreeViewModelStoreOwner())
         bottomSheetDialogLayout.setViewTreeOnBackPressedDispatcherOwner(this)
         bottomSheetDialogLayout.setViewTreeSavedStateRegistryOwner(
             composeView.findViewTreeSavedStateRegistryOwner()
