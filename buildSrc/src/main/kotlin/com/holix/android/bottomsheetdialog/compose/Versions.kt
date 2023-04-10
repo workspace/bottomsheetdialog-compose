@@ -8,8 +8,8 @@ object Versions {
     internal const val MATERIAL = "1.8.0"
     internal const val ANDROIDX_CORE_KTX = "1.10.0"
 
-    internal const val COMPOSE = "1.4.1"
-    const val COMPOSE_COMPILER = "1.4.3"
+    internal const val COMPOSE = "1.5.0-alpha02"
+    const val COMPOSE_COMPILER = "1.4.4"
     internal const val ANDROIDX_ACTIVITY = "1.7.0"
 
     internal const val COLOR_PICKER = "1.0.0"
