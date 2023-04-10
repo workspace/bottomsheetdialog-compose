@@ -29,6 +29,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogWindowProvider
 import androidx.compose.ui.window.SecureFlagPolicy
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewTreeLifecycleOwner
@@ -307,15 +308,6 @@ fun BottomSheetDialog(
             layoutDirection = layoutDirection
         )
     }
-}
-
-/**
- * Provides the underlying window of a bottomsheet dialog.
- *
- * Implemented by dialog's root layout.
- */
-interface DialogWindowProvider {
-    val window: Window
 }
 
 @Suppress("ViewConstructor")
