@@ -8,7 +8,7 @@ object Versions {
     internal const val MATERIAL = "1.9.0"
     internal const val ANDROIDX_CORE_KTX = "1.10.1"
 
-    internal const val COMPOSE_BOM = "2023.08.00"
+    internal const val COMPOSE_BOM = "2023.09.00-alpha01"
     const val COMPOSE_COMPILER = "1.5.1"
     internal const val ANDROIDX_ACTIVITY = "1.7.2"
 
@@ -26,7 +26,7 @@ object Dependencies {
     const val androidxActivityKtx = "androidx.activity:activity-ktx:${Versions.ANDROIDX_ACTIVITY}"
     const val androidxCoreKtx = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_KTX}"
 
-    const val composeBom = "androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"
+    const val composeBom = "dev.chrisbanes.compose:compose-bom:${Versions.COMPOSE_BOM}"
     const val composeUI = "androidx.compose.ui:ui"
     const val composeRuntime = "androidx.compose.runtime:runtime"
     const val composeMaterial = "androidx.compose.material:material"
