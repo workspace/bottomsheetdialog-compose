@@ -3,14 +3,14 @@ package com.holix.android.bottomsheetdialog.compose
 object Versions {
     internal const val ANDROID_GRADLE_PLUGIN = "7.3.1"
     internal const val GRADLE_NEXUS_PUBLISH_PLUGIN = "1.1.0"
-    internal const val KOTLIN = "1.7.20"
+    internal const val KOTLIN = "1.9.0"
 
-    internal const val MATERIAL = "1.8.0"
-    internal const val ANDROIDX_CORE_KTX = "1.9.0"
+    internal const val MATERIAL = "1.9.0"
+    internal const val ANDROIDX_CORE_KTX = "1.10.1"
 
     internal const val COMPOSE_BOM = "2023.01.00"
-    const val COMPOSE_COMPILER = "1.3.2"
-    internal const val ANDROIDX_ACTIVITY = "1.5.1"
+    const val COMPOSE_COMPILER = "1.5.1"
+    internal const val ANDROIDX_ACTIVITY = "1.7.2"
 
     internal const val COLOR_PICKER = "1.0.0"
 }
