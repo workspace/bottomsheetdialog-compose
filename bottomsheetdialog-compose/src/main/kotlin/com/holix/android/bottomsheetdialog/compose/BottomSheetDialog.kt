@@ -382,7 +382,6 @@ private class BottomSheetDialogWrapper(
 
     init {
         val window = window ?: error("Dialog has no window")
-        window.requestFeature(Window.FEATURE_NO_TITLE)
         window.setBackgroundDrawableResource(android.R.color.transparent)
         bottomSheetDialogLayout = BottomSheetDialogLayout(context, window).apply {
             // Set unique id for AbstractComposeView. This allows state restoration for the state
