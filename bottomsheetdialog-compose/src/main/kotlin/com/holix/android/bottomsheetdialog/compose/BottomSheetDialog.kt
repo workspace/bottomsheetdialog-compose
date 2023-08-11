@@ -5,9 +5,13 @@ import android.graphics.Outline
 import android.os.Build
 import android.view.*
 import androidx.activity.addCallback
+import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.annotation.Px
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -278,6 +282,7 @@ fun BottomSheetDialog(
                 BottomSheetDialogLayout(
                     Modifier
                         .nestedScroll(rememberNestedScrollInteropConnection())
+                        .scrollable(state = rememberScrollableState{ 0f }, orientation = Orientation.Vertical)
                         .semantics { dialog() },
                 ) {
                     currentContent()
@@ -423,6 +428,7 @@ private class BottomSheetDialogWrapper(
         setContentView(bottomSheetDialogLayout)
         bottomSheetDialogLayout.setViewTreeLifecycleOwner(composeView.findViewTreeLifecycleOwner())
         bottomSheetDialogLayout.setViewTreeViewModelStoreOwner(composeView.findViewTreeViewModelStoreOwner())
+        bottomSheetDialogLayout.setViewTreeOnBackPressedDispatcherOwner(this)
         bottomSheetDialogLayout.setViewTreeSavedStateRegistryOwner(
             composeView.findViewTreeSavedStateRegistryOwner()
         )
