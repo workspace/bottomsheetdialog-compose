@@ -1,8 +1,8 @@
 package com.holix.android.bottomsheetdialog.compose
 
 object Versions {
-    internal const val ANDROID_GRADLE_PLUGIN = "8.1.0"
-    internal const val GRADLE_NEXUS_PUBLISH_PLUGIN = "1.3.0"
+    internal const val ANDROID_GRADLE_PLUGIN = "7.4.2"
+    internal const val GRADLE_NEXUS_PUBLISH_PLUGIN = "1.1.0"
     internal const val KOTLIN = "1.9.0"
 
     internal const val MATERIAL = "1.9.0"
