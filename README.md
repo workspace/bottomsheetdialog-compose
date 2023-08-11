@@ -18,6 +18,7 @@
 |Compose 1.3.x|<img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.holix.android/bottomsheetdialog-compose?style=for-the-badge&versionPrefix=1.1"/>|
 |Compose 1.4.x|<img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.holix.android/bottomsheetdialog-compose?style=for-the-badge&versionPrefix=1.2"/>|
 |Compose 1.5.x|<img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.holix.android/bottomsheetdialog-compose?style=for-the-badge&versionPrefix=1.3"/>|
+|Compose 1.6.x|<img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.holix.android/bottomsheetdialog-compose?style=for-the-badge&versionPrefix=1.4"/>|
 ```gradle
 // module's build.gradle
 dependencies {
