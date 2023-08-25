@@ -4,6 +4,7 @@
   <a href="https://github.com/holixfactory/bottomsheetdialog-compose/actions"><img src="https://github.com/holixfactory/bottomsheetdialog-compose/workflows/Publish/badge.svg" /></a>
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
   <a href="https://github.com/holixfactory/bottomsheetdialog-compose/releases"><img src="https://img.shields.io/github/v/release/holixfactory/bottomsheetdialog-compose" /></a>
+  <a href="https://jetc.dev/issues/123.html"><img src="https://img.shields.io/badge/As_Seen_In-jetc.dev_Newsletter_Issue_%23123-blue?logo=Jetpack+Compose&amp;logoColor=white" alt="As Seen In - jetc.dev Newsletter Issue #123"></a>
 </p>
 
 # Preview
