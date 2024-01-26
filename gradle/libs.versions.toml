@@ -7,7 +7,7 @@ spotless = "6.25.0"
 
 androidxActivity = "1.8.2"
 androidxCore = "1.12.0"
-androidxComposeBom = "2024.01.00"
+androidxComposeBom = "2024.01.00-alpha03"
 androidxComposeCompiler = "1.5.7"
 
 material = "1.11.0"
@@ -18,7 +18,7 @@ androidx-activity = { group = "androidx.activity", name = "activity-ktx", versio
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
