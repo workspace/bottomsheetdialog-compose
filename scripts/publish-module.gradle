@@ -1,14 +1,12 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     archiveClassifier.set('sources')
     if (project.plugins.findPlugin("com.android.library")) {
-        // For Android libraries
         from android.sourceSets.main.java.srcDirs
         from android.sourceSets.main.kotlin.srcDirs
     } else {
-        // For pure Kotlin libraries, in case you have them
         from sourceSets.main.java.srcDirs
         from sourceSets.main.kotlin.srcDirs
     }
@@ -44,29 +42,24 @@ afterEvaluate {
                 pom {
                     name = PUBLISH_ARTIFACT_ID
                     description = 'BottomSheetDialog wrapper for Jetpack Compose'
-                    url = 'https://github.com/holixfactory/bottomsheetdialog-compose'
+                    url = 'https://github.com/workspace/bottomsheetdialog-compose'
                     licenses {
                         license {
-                            name = 'MIT License'
-                            url = 'https://github.com/holixfactory/bottomsheetdialog-compose/blob/main/LICENSE'
+                            name = 'Apache-2.0 license'
+                            url = 'https://github.com/workspace/bottomsheetdialog-compose/blob/main/LICENSE'
                         }
                     }
                     developers {
                         developer {
                             id = 'workspace'
                             name = 'Kimin Ryu'
-                            email = 'ryu@holix.com'
-                        }
-                        developer {
-                            id = 'Heyday7'
-                            name = 'Taehyup Ko'
-                            email = 'thko@holix.com'
+                            email = 'ryukimin.workspace@gmail.com'
                         }
                     }
                     scm {
-                        connection = 'scm:git:github.com/holixfactory/bottomsheetdialog-compose.git'
-                        developerConnection = 'scm:git:ssh://github.com/holixfactory/bottomsheetdialog-compose.git'
-                        url = 'https://github.com/holixfactory/bottomsheetdialog-compose/tree/main'
+                        connection = 'scm:git:github.com/workspace/bottomsheetdialog-compose.git'
+                        developerConnection = 'scm:git:ssh://github.com/workspace/bottomsheetdialog-compose.git'
+                        url = 'https://github.com/workspace/bottomsheetdialog-compose/tree/main'
                     }
                 }
             }
