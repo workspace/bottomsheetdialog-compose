@@ -23,6 +23,7 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
+                tasks.named("generateMetadataFileForReleasePublication").configure { dependsOn("androidSourcesJar") }
                 // The coordinates of the library, being set from variables that
                 // we'll set up later
                 groupId PUBLISH_GROUP_ID
@@ -35,8 +36,6 @@ afterEvaluate {
                 } else {
                     from components.java
                 }
-
-                artifact androidSourcesJar
 
                 // Mostly self-explanatory metadata
                 pom {
