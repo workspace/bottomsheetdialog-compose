@@ -1,12 +1,12 @@
 import com.holix.android.bottomsheetdialog.compose.Configuration
 
 // Create variables with empty default values
-ext["signing.keyId"] = ''
-ext["signing.password"] = ''
-ext["signing.key"] = ''
 ext["ossrhUsername"] = ''
 ext["ossrhPassword"] = ''
 ext["sonatypeStagingProfileId"] = ''
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.key"] = ''
 ext["rootVersionName"] = Configuration.versionName
 
 File secretPropsFile = project.rootProject.file('local.properties')
@@ -34,7 +34,6 @@ nexusPublishing {
             password = ossrhPassword
             version = rootVersionName
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
     }
 }

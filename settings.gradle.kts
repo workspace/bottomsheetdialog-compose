@@ -10,8 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2/")
     }
 }
 rootProject.name = "bottomsheetdialog-compose"
-include ':bottomsheetdialog-compose'
-include ':app'
+include(":bottomsheetdialog-compose")
+include(":app")
