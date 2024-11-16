@@ -54,7 +54,7 @@ import java.util.*
  * @property navigationBarColor  Color to apply to the navigationBar.
  */
 @Immutable
-class BottomSheetDialogProperties constructor(
+class BottomSheetDialogProperties(
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
     val dismissWithAnimation: Boolean = false,
